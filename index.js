@@ -273,7 +273,7 @@ var List = React.createClass({
           </div>
           <div className='col8 pad2y pad1x'>
             <h3>poism</h3>
-            <p className='italic'>a simple place of interest editor for OpenStreetMap</p>
+            <p className='italic'>a simple point of interest editor for OpenStreetMap</p>
           </div>
         </div>
       </div>
