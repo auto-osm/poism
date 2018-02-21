@@ -10,31 +10,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name='viewport' content='initial-scale=1, maximum-scale=1'>
     <link href='https://mapbox.com/base/latest/base.css' rel='stylesheet' />
-    <script src="//cdn.ravenjs.com/1.1.15/jquery,native/raven.min.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
     <link href='assets/style.css' rel='stylesheet' />
   </head>
   <body id='coffee'>
     <script src='bundle.js'></script>
-    <script type="text/javascript">
-      var _gauges = _gauges || [];
-      (function() {
-        var t   = document.createElement('script');
-        t.type  = 'text/javascript';
-        t.async = true;
-        t.id    = 'gauges-tracker';
-        t.setAttribute('data-site-id', '54765affeddd5b20be000270');
-        t.src = '//secure.gaug.es/track.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(t, s);
-      })();
-    </script>
-    <script>
-    Raven.config('https://64767213c79640d68b949475986415ce@app.getsentry.com/33852', {
-        // we highly recommend restricting exceptions to a domain in order to filter out clutter
-        whitelistUrls: ['macwright.org/coffeedex/']
-    }).install();
-    </script>
   </body>
 </html>

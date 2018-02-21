@@ -1,22 +1,21 @@
-var React = require('react/addons'),
+var React = require('react'),
   Reflux = require('reflux'),
   Router = require('react-router'),
   { NotFoundRoute, Navigation, State, Link, Route, RouteHandler, DefaultRoute } = Router,
   osmAuth = require('osm-auth'),
   haversine = require('haversine'),
   xhr = require('xhr'),
-  currency = require('./currency_symbols.json'),
   qs = require('querystring');
 
 window.React = React;
 
 // Constants for API endpoints
-const API06 = 'http://api.openstreetmap.org/api/0.6/',
-  OVERPASS = 'http://overpass-api.de/api/interpreter';
+const API06 = 'https://api.openstreetmap.org/api/0.6/',
+  OVERPASS = 'https://overpass-api.de/api/interpreter';
 
 // Constants for our OAuth connection to OpenStreetMap.
-const OAUTH_CONSUMER_KEY = 'VTdXpqeoRiraqICAoLN3MkPghHR5nEG8cKfwPUdw',
-  OAUTH_SECRET = 'ugrQJAmn1zgdn73rn9tKCRl6JQHaZkcen2z3JpAb';
+const OAUTH_CONSUMER_KEY = 'ba5eNXgk15yUZu0HKOiiaj6TGMwGPXZTCguB1284',
+  OAUTH_SECRET = 'Ln2ownAA5vcP8ag7QV5BV8wJiLXEmlgbC01QFTcc';
 
 // # Configuration
 // This is used to show certain nodes in the list: otherwise the ones
@@ -25,7 +24,7 @@ const KEYPAIR = { k: 'amenity', v: 'cafe' },
   TAG = 'cost:coffee',
 // The version string is added to changesets to let OSM know which
 // editor software is responsible for which changes.
-  VERSION = 'COFFEEDEX 2002',
+  VERSION = 'poism',
   MBX = 'pk.eyJ1IjoidG1jdyIsImEiOiIzczJRVGdRIn0.DKkDbTPnNUgHqTDBg7_zRQ',
   MAP = 'tmcw.kbh273ee',
   PIN = 'pin-l-cafe',
@@ -247,7 +246,7 @@ var LogIn = React.createClass({
     /* jshint ignore:start */
     return (<div className='pad2'>
         <div className='pad1 space-bottom1'>
-          COFFEEDEX is built on OpenStreetMap and requires an OpenStreetMap account.
+          Adding to the map requires an OpenStreetMap account.
         </div>
         <button
           onClick={userLogin}
@@ -311,8 +310,8 @@ var List = React.createClass({
               className='inline' src='assets/logo_inverted.png' />
           </div>
           <div className='col8 pad2y pad1x'>
-            <h3>COFFEEDEX</h3>
-            <p className='italic'>how much does a cup of coffee for here cost, everywhere?</p>
+            <h3>poism</h3>
+            <p className='italic'>a simple place of interest editor for OpenStreetMap</p>
           </div>
         </div>
       </div>
@@ -326,16 +325,6 @@ var List = React.createClass({
             .map(res => <Result key={res.id} res={res} />)}
         </div> :
       <LogIn />}
-      <div className='center dark space-bottom1'>
-        <div className='pill space-top1'>
-          <Link
-            className='button stroke quiet icon globe'
-            to='world_map'>World Map</Link>
-          <Link
-            className='button stroke quiet'
-            to='help'>Help</Link>
-        </div>
-      </div>
     </div>);
   }
   /* jshint ignore:end */

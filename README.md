@@ -1,8 +1,8 @@
-# COFFEE DEX
+# POIsm
 
-_A collaborative solution to the problem of_
+A single-page, single-object OpenStreetMap editor designed to add or edit points of interest.
 
-> How much does a cup of coffee for here cost, everywhere?
+## Components
 
 * A [React](http://facebook.github.io/react/) application written in
 ES6 that uses 6to5 to make the code run everywhere.
