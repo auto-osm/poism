@@ -94,10 +94,6 @@ var queryOverpass = (center, kv, callback) => {
   (node["${kv.k}"="${kv.v}"](${bbox});); out body; >; out skel qt;`;
   xhr({ uri: OVERPASS, method: 'POST', body: query }, callback);
 };
-var queryOverpassAll = (callback) => {
-  var query = `[out:json][timeout:1000];(node["cost:coffee"];);out body; >; out skel qt;`;
-  xhr({ uri: OVERPASS, method: 'POST', body: query }, callback);
-};
 
 // # Stores
 var locationStore = Reflux.createStore({
@@ -109,40 +105,6 @@ var locationStore = Reflux.createStore({
         this.trigger(res.coords);
       }
       this.location = res.coords;
-    });
-  }
-});
-
-// The worldNode store stores only data for the WorldMap component:
-// instead of loading a list with [Overpass API](http://wiki.openstreetmap.org/wiki/Overpass_API)
-// and detail with API 0.6, this simply hits Overpass, and uses the easy-to-parse JSON output
-// instead of XML.
-//
-// We then transform Overpass's JSON encoding into [GeoJSON](http://geojson.org/)
-// so Mapbox.js can display the points.
-var worldNodeLoad = Reflux.createAction();
-var worldNodeStore = Reflux.createStore({
-  nodes: null,
-  getInitialState() { return this.nodes; },
-  init() { this.listenTo(worldNodeLoad, this.load); },
-  load() {
-    queryOverpassAll((err, resp, json) => {
-      if (err) return console.error(err);
-      this.nodes = {
-        type: 'FeatureCollection',
-        features: JSON.parse(json).elements.map((elem) => {
-          elem.tags.title = elem.tags.name || '';
-          elem.tags.description = elem.tags[TAG];
-          elem.tags['marker-symbol'] = 'cafe';
-          elem.tags['marker-color'] = '#5a3410';
-          return {
-            type: 'Feature',
-            properties: elem.tags,
-            geometry: { type: 'Point', coordinates: [elem.lon, elem.lat]  }
-          };
-        })
-      };
-      this.trigger(this.nodes);
     });
   }
 });
@@ -405,41 +367,6 @@ var Help = React.createClass({
   /* jshint ignore:end */
 });
 
-// The WorldMap page. This uses the worldNodeLoad to show all tagged
-// nodes worldwide on an interactive Mapbox map.
-var WorldMap = React.createClass({
-  mixins: [Navigation, Reflux.connect(worldNodeStore, 'nodes')],
-  statics: {
-    willTransitionTo(transition, params) {
-      worldNodeLoad();
-    }
-  },
-  /* jshint ignore:start */
-  componentDidMount() {
-    this.map = L.mapbox.map(this.refs.map.getDOMNode(), MAP, {
-      zoomControl: false
-    });
-    if (this.state.nodes) this.map.featureLayer.setGeoJSON(this.state.nodes);
-  },
-  componentDidUpdate() {
-    if (this.state.nodes) this.map.featureLayer.setGeoJSON(this.state.nodes);
-  },
-  render() {
-    return <div>
-      <div ref='map' className='pin-top pin-bottom' id='map'></div>
-      {this.state.nodes &&
-      <div
-        className='pin-bottom fill-navy pad0 center'>
-        <strong>{this.state.nodes.features.length}</strong> prices worldwide
-      </div>}
-      <Link
-        to='list'
-        className='home icon button fill-navy dark pin-top unround col12'>home</Link>
-    </div>;
-  }
-  /* jshint ignore:end */
-});
-
 // The editor. This allows users to view and edit tags on single result items.
 var Editor = React.createClass({
   mixins: [
@@ -524,7 +451,6 @@ var routes = (
   /* jshint ignore:start */
   <Route handler={Page} path='/'>
     <DefaultRoute name='list' handler={List} />
-    <Route name='world_map' path='/world_map' handler={WorldMap} />
     <Route name='success' path='/success' handler={Success} />
     <Route name='help' path='/help' handler={Help} />
     <Route name='editor' path='/edit/:osmId' handler={Editor} />
