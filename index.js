@@ -1,7 +1,7 @@
 var React = require('react'),
   Reflux = require('reflux'),
   Router = require('react-router'),
-  { NotFoundRoute, Navigation, State, Link, Route, RouteHandler, DefaultRoute } = Router,
+  { NotFoundRoute, State, Link, Route, RouteHandler, DefaultRoute } = Router,
   osmAuth = require('osm-auth'),
   haversine = require('haversine'),
   xhr = require('xhr'),
@@ -321,7 +321,6 @@ var parseCurrency = str => {
 // can either click/tap to go back to the list, or it'll do that automatically
 // in 1 second.
 var Success = React.createClass({
-  mixins: [Navigation],
   componentDidMount() {
     setTimeout(() => {
       if (this.isMounted()) {
@@ -372,7 +371,7 @@ var Editor = React.createClass({
   mixins: [
     Reflux.listenTo(nodeStore, 'onNodeLoad', 'onNodeLoad'),
     Reflux.connect(locationStore, 'location'),
-    State, React.addons.LinkedStateMixin],
+    State],
   onNodeLoad(nodes) {
     var node = nodes[this.getParams().osmId];
     if (node) {

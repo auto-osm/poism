@@ -44,9 +44,9 @@
   },
   "dependencies": {
     "haversine": "^1.0.0",
-    "react-router": "^4.2.0",
-    "reflux": "^6.4.1",
-    "react": "^15.0.2",
+    "react-router": "^0.11.4",
+    "react": "^0.12.2",
+    "reflux": "^0.2.1",
     "xhr": "^2.4.1"
   }
 }
